@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morse Code Converter</title>
+  <style>
+    /* Background & Layout */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f2027;
+      background-image: 
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-size: 25px 25px, cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      padding: 30px;
+      width: 480px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+      text-align: center;
+      color: #ffcc00;
+    }
+
+    /* Input area */
+    textarea {
+      width: 100%;
+      height: 100px;
+      border-radius: 12px;
+      border: none;
+      padding: 12px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      resize: none;
+      outline: none;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    textarea::placeholder {
+      color: #ddd;
+    }
+
+    /* Button */
+    button {
+      background: linear-gradient(135deg, #ffcc00, #ff9900);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+      color: #222;
+      align-self: center;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ffdb4d, #ffc94d);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Output container */
+    .output {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .word-block {
+      margin-bottom: 15px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      transition: transform 0.2s;
+    }
+
+    .word-block:hover {
+      transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .word {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #ffcc00;
+      text-transform: uppercase;
+    }
+
+    .morse {
+      font-size: 1.5rem;
+      letter-spacing: 6px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Custom Scrollbar */
+    .output::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .output::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+    
+
+<body>
+  <div class="container">
+    <h1>Morse Code Converter</h1>
+    <textarea id="inputText" placeholder="Type text here..."></textarea>
+    <button onclick="convertToMorse()">Convert</button>
+    <div id="output" class="output"></div>
+  </div>
+
+  <script>
+    const morseCode = {
+      'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..',
+      'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+      'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+      'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+      'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+      'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+      'Y': '-.--', 'Z': '--..',
+      '0': '-----', '1': '.----', '2': '..---',
+      '3': '...--', '4': '....-', '5': '.....',
+      '6': '-....', '7': '--...', '8': '---..',
+      '9': '----.', ' ': ' / '
+    };
+
+    function convertToMorse() {
+      let text = document.getElementById("inputText").value.toUpperCase().trim();
+      let words = text.split(" ");
+      let outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = "";
+
+      words.forEach(word => {
+        let morse = word.split("").map(char => morseCode[char] || "").join(" ");
+        let block = document.createElement("div");
+        block.className = "word-block";
+        block.innerHTML = `<div class="word">${word}</div><div class="morse">${morse}</div>`;
+        outputDiv.appendChild(block);
+      });
+    }
+  </script>
+</body>
+</html>
